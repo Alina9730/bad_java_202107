@@ -56,10 +56,8 @@ public class SimpleBot {
 
     while (num != 2) {
       System.out.println("Please, try again.");
-      int num1 = scanner.nextInt();
-      if (num1 == 2) {
+      num = scanner.nextInt();
         break;
-      }
     }
   }
 

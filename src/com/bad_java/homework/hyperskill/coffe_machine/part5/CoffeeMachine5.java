@@ -5,41 +5,38 @@ import java.util.Scanner;
 public class CoffeeMachine5 {
 
   final static Scanner scanner = new Scanner(System.in);
+  final static CoffeeType ESPRESSO = new CoffeeType(250, 0, 16, 4);
+  final static CoffeeType LATTE = new CoffeeType(350, 75, 20, 7);
+  final static CoffeeType CAPPUCCINO = new CoffeeType(200, 100, 12, 6);
+
   static int amountWater = 400;
   static int amountMilk = 540;
   static int amountCoffeeBeans = 120;
-  static int costEspresso = 4;
-  static int costLatte = 7;
-  static int costCappuccino = 6;
   static int amountCupsCoffee = 9;
-  static int haveMoney = 550;
+  static int amountMoney = 550;
 
   public static void main(String[] args) {
-
-    while (true) {
+    String action = "";
+    while (!action.equals("exit")) {
       System.out.println("Write action (buy, fill, take, remaining, exit): ");
-      String newAction = scanner.nextLine();
-      if (newAction.equals("buy")) {
-        buyCoffee();
-      }
-      System.out.println();
-      if (newAction.equals("fill")) {
-        fillIngredients();
-      }
-
-      if (newAction.equals("take")) {
-        takeMoney();
-      }
-
-      if (newAction.equals("remaining")) {
-        remainingIngredients();
-      }
-
-      if (newAction.equals("exit")) {
-        break;
+      action = scanner.nextLine();
+      switch (action) {
+        case "buy":
+          buyCoffee();
+          break;
+        case "fill":
+          fillIngredients();
+          break;
+        case "take":
+          takeMoney();
+          break;
+        case "remaining":
+          remainingIngredients();
+          break;
+        case "exit":
+          break;
       }
     }
-
   }
 
   static void buyCoffee() {
@@ -53,77 +50,33 @@ public class CoffeeMachine5 {
       back = scanner.nextLine();
     }
 
-    if (num == 1) {
-      if (amountWater >= 250 && amountCoffeeBeans >= 16 && amountCupsCoffee >= 1) {
-        amountWater = amountWater - 250;
-        amountCoffeeBeans = amountCoffeeBeans - 16;
-        haveMoney = haveMoney + costEspresso;
-        amountCupsCoffee = amountCupsCoffee - 1;
-        System.out.println("I have enough resources, making you a coffee!");
-      } else {
-        if (amountWater < 250) {
-          System.out.println("Sorry, not enough water!");
-        }
-        if (amountCoffeeBeans < 16) {
-          System.out.println("Sorry, not enough coffee beans!");
-        }
-        if (amountCupsCoffee == 0) {
-          System.out.println("Sorry, not enough disposable cups!");
-        }
-      }
-    }
-    if (num == 2) {
-      if (amountWater >= 350 && amountMilk >= 75 && amountCoffeeBeans >= 20
-          && amountCupsCoffee >= 1) {
-        amountWater = amountWater - 350;
-        amountMilk = amountMilk - 75;
-        amountCoffeeBeans = amountCoffeeBeans - 20;
-        haveMoney = haveMoney + costLatte;
-        amountCupsCoffee = amountCupsCoffee - 1;
-        System.out.println("I have enough resources, making you a coffee!");
-      } else {
-        if (amountWater < 350) {
-          System.out.println("Sorry, not enough water!");
-        }
-        if (amountCoffeeBeans < 20) {
-          System.out.println("Sorry, not enough coffee beans!");
-        }
-        if (amountCupsCoffee == 0) {
-          System.out.println("Sorry, not enough disposable cups!");
-        }
-        if (amountMilk < 75) {
-          System.out.println("Sorry, not enough milk!");
-        }
-      }
-    }
-    if (num == 3) {
-      if (amountWater >= 200 && amountMilk >= 100 && amountCoffeeBeans >= 12
-          && amountCupsCoffee >= 1) {
-        amountWater = amountWater - 200;
-        amountMilk = amountMilk - 100;
-        amountCoffeeBeans = amountCoffeeBeans - 12;
-        haveMoney = haveMoney + costCappuccino;
-        amountCupsCoffee = amountCupsCoffee - 1;
-        System.out.println("I have enough resources, making you a coffee!");
-      } else {
-        if (amountWater < 200) {
-          System.out.println("Sorry, not enough water!");
-        }
-        if (amountCoffeeBeans < 12) {
-          System.out.println("Sorry, not enough coffee beans!");
-        }
-        if (amountCupsCoffee == 0) {
-          System.out.println("Sorry, not enough disposable cups!");
-        }
-        if (amountMilk < 100) {
-          System.out.println("Sorry, not enough milk!");
-        }
-      }
-    }
+    if (num == 1) buyCoffee(ESPRESSO);
+    if (num == 2) buyCoffee(LATTE);
+    if (num == 3) buyCoffee(CAPPUCCINO);
     if (back.equals("back")) {
       System.out.println("Write action (buy, fill, take, remaining, exit): ");
     }
 
+  }
+
+  static void buyCoffee(CoffeeType coffeeType) {
+    if (amountWater >= coffeeType.water && amountCoffeeBeans >= coffeeType.coffeeBeans && amountCupsCoffee >= 1) {
+      amountWater = amountWater - coffeeType.water;
+      amountCoffeeBeans = amountCoffeeBeans - coffeeType.coffeeBeans;
+      amountMoney = amountMoney + coffeeType.cost;
+      amountCupsCoffee = amountCupsCoffee - 1;
+      System.out.println("I have enough resources, making you a coffee!");
+    } else {
+      if (amountWater < coffeeType.water) {
+        System.out.println("Sorry, not enough water!");
+      }
+      if (amountCoffeeBeans < coffeeType.coffeeBeans) {
+        System.out.println("Sorry, not enough coffee beans!");
+      }
+      if (amountCupsCoffee == 0) {
+        System.out.println("Sorry, not enough disposable cups!");
+      }
+    }
   }
 
   static void fillIngredients() {
@@ -142,8 +95,8 @@ public class CoffeeMachine5 {
   }
 
   static void takeMoney() {
-    System.out.println("I gave you $" + haveMoney);
-    haveMoney = 0;
+    System.out.println("I gave you $" + amountMoney);
+    amountMoney = 0;
   }
 
   static void remainingIngredients() {
@@ -152,7 +105,7 @@ public class CoffeeMachine5 {
     System.out.println(amountMilk + " ml of milk");
     System.out.println(amountCoffeeBeans + " g of coffee beans");
     System.out.println(amountCupsCoffee + " disposable cups");
-    System.out.println("$" + haveMoney + " of money");
+    System.out.println("$" + amountMoney + " of money");
   }
 
 }

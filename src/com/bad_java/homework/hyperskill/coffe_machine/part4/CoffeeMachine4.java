@@ -18,25 +18,26 @@ public class CoffeeMachine4 {
     amountIngredients();
     System.out.println("Write action (buy, fill, take): ");
     String action = scanner.nextLine();
-    if (action.equals("buy")) {
-      buyCoffee();
-    }
-    if (action.equals("fill")) {
-      fillIngredients();
-    }
-    if (action.equals("take")) {
-      takeMoney();
+    switch (action) {
+      case "buy":
+        buyCoffee();
+        break;
+      case "fill":
+        fillIngredients();
+        break;
+      case "take":
+        takeMoney();
+        break;
     }
   }
 
   static void amountIngredients() {
     System.out.println("The coffee machine has:");
-    System.out.println("400 ml of water");
-    System.out.println("540 ml of milk");
-    System.out.println("120 g of coffee beans");
-    System.out.println("9 disposable cups");
-    System.out.println("$550 of money");
-    System.out.println();
+    System.out.println(amountWater + " ml of water");
+    System.out.println(amountMilk + " ml of milk");
+    System.out.println(amountCoffeeBeans + " g of coffee beans");
+    System.out.println(amountCupsCoffee + " disposable cups");
+    System.out.println("$" + haveMoney + " of money");
   }
 
   static void buyCoffee() {
@@ -63,12 +64,6 @@ public class CoffeeMachine4 {
       haveMoney = haveMoney + costCappuccino;
       amountCupsCoffee = amountCupsCoffee - 1;
     }
-    System.out.println("The coffee machine has:");
-    System.out.println(amountWater + " ml of water");
-    System.out.println(amountMilk + " ml of milk");
-    System.out.println(amountCoffeeBeans + " g of coffee beans");
-    System.out.println(amountCupsCoffee + " disposable cups");
-    System.out.println("$" + haveMoney + " of money");
   }
 
   static void fillIngredients() {
